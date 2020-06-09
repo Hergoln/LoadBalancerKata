@@ -91,7 +91,14 @@ namespace LoadBalancerMTOTests
         [Test]
         public void BalanceAServerWithNotEnoughRoomShouldNotBeFilledWithAVm()
         {
-            
+            double loadedStartingLoad = 0.8d;
+            int laodedCap = 10;
+            Server loaded = A(Server().WithCapacity(laodedCap).WithStartingLoad(loadedStartingLoad));
+            Vm vm = A(Vm().WithSize(3));
+
+            Balance(ServersListWith(loaded), VmsListWith(vm));
+
+            Assert.AreEqual(loaded.CurrentLoadPercentage, loadedStartingLoad);
         }
 
         public bool ServerVmMatches(Server server, params Vm[] vms)

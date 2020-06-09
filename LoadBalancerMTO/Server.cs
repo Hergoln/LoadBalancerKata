@@ -46,7 +46,7 @@ namespace LoadBalancerMTO
 
         public bool CanContain(Vm vm)
         {
-            return vm.Size + CurrentLoadPercentage <= Capacity;
+            return vm.Size + CurrentLoadPercentage * Capacity <= Capacity;
         }
 
         private Vm[] copy()
