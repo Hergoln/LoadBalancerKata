@@ -6,9 +6,9 @@ namespace LoadBalancerMTO
 {
     public class Vm
     {
-        private double Size;
+        private int Size;
 
-        public Vm(double size)
+        public Vm(int size)
         {
             this.Size = size;
         }
