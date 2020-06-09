@@ -12,7 +12,7 @@ namespace LoadBalancerMTOTests
 
         public Server Build()
         {
-            return new Server() { Capacity = Capacity };
+            return new Server(Capacity);
         }
 
         public ServerBuilder WithCapacity(int capacity)

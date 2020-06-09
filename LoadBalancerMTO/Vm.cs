@@ -6,11 +6,15 @@ namespace LoadBalancerMTO
 {
     public class Vm
     {
-        private int Size;
+        private int _size;
+        public int Size
+        {
+            get => _size;
+        }
 
         public Vm(int size)
         {
-            this.Size = size;
+            this._size = size;
         }
     }
 }
