@@ -9,7 +9,7 @@
         {
             for(int i = 0; i < vms.Length; i++)
             {
-                servers[i].Install(vms[i]);
+                servers[0].Install(vms[i]);
             }
         }
     }

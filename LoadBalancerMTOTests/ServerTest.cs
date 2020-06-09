@@ -1,10 +1,11 @@
 using LoadBalancerMTO;
+using NUnit.Framework;
 using NHamcrest;
 using NHamcrest.Core;
-using NUnit.Framework;
 using System;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace LoadBalancerMTOTests
 {
@@ -26,8 +27,7 @@ namespace LoadBalancerMTOTests
         public void OneServerBlancedWithEmptyVmShouldBeEmpty()
         {
             Server server = A(Server().WithCapacity(1));
-
-            Balance(ServersListWith(server), AnEmptyVMsListWith());
+            Balance(ServersListWith(server), EmptyVmsList());
 
             Assert.AreEqual(server.CurrentLoadPercentage, ZeroPercentage);
         }
@@ -55,7 +55,14 @@ namespace LoadBalancerMTOTests
         [Test]
         public void BalancingAServerWithEnoughRoomGetsFilledWithAllVms()
         {
-            Assert.Pass();
+            Server server = A(Server().WithCapacity(10));
+            Vm vm1 = A(Vm().WithSize(1));
+            Vm vm2 = A(Vm().WithSize(4));
+            Vm vm3 = A(Vm().WithSize(5));
+            Vm[] vms = VmsListWith(vm1, vm2, vm3);
+            Balance(ServersListWith(server), vms);
+
+            Assert.True(ServerVmMatches(server, vms));
         }
 
         [Test]
@@ -68,6 +75,19 @@ namespace LoadBalancerMTOTests
         public void BalanceAServerWithNotEnoughRoomShouldNotBeFilledWithAVm()
         {
             Assert.Pass();
+        }
+
+        public bool ServerVmMatches(Server server, params Vm[] vms)
+        {
+           foreach(Vm vm in vms)
+           {
+                if (!server.Vms.Contains(vm))
+                {
+                    return false;
+                }
+           }
+
+            return true && server.Vms.Length == vms.Length;
         }
 
         private Vm A(VmBuilder builder)
@@ -105,7 +125,7 @@ namespace LoadBalancerMTOTests
             return vms;
         }
 
-        private Vm[] AnEmptyVMsListWith()
+        private Vm[] EmptyVmsList()
         {
             return new Vm[] { };
         }

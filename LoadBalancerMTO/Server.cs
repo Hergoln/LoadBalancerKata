@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace LoadBalancerMTO
@@ -17,6 +20,10 @@ namespace LoadBalancerMTO
             get => _capacity;
         }
         private List<Vm> _vms;
+        public Vm[] Vms
+        {
+            get => copy();
+        }
 
         public Server(int capacity)
         {
@@ -35,6 +42,13 @@ namespace LoadBalancerMTO
             }
 
             _currentLoadPercentage = (double)cumulativeSize / _capacity;
+        }
+
+        private Vm[] copy()
+        {
+            Vm[] view = new Vm[_vms.Count];
+            this._vms.CopyTo(view);
+            return view;
         }
     }
 }
