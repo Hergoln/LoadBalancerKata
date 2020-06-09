@@ -74,7 +74,18 @@ namespace LoadBalancerMTOTests
         [Test]
         public void AVmShouldBeBalancedOnLessLoadedServerFirst()
         {
-            Assert.Pass();
+            double loadedStartingLoad = 0.4d;
+            int laodedCap = 10;
+            int emptyCap = 10;
+            Server loaded = A(Server().WithCapacity(laodedCap).WithStartingLoad(loadedStartingLoad));
+            Server empty = A(Server().WithCapacity(emptyCap));
+            Vm vm = A(Vm().WithSize(5));
+
+            Balance(ServersListWith(loaded, empty), VmsListWith(vm));
+
+            Assert.AreEqual(loaded.CurrentLoadPercentage, loadedStartingLoad);
+            Assert.AreEqual(empty.CurrentLoadPercentage, 0.5d);
+            Assert.True(ServerVmMatches(empty, vm));
         }
 
         [Test]
@@ -118,7 +129,7 @@ namespace LoadBalancerMTOTests
 
         private ServerBuilder Server()
         {
-            return new ServerBuilder();
+            return ServerBuilder.Builder();
         }
 
         private Server[] ServersListWith(params Server[] servers)

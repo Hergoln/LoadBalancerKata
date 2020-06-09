@@ -1,4 +1,6 @@
-﻿namespace LoadBalancerMTO
+﻿using System;
+
+namespace LoadBalancerMTO
 {
     public class ServerLoadBalancer
     {
@@ -7,9 +9,18 @@
 
         public void Balance(Server[] servers, Vm[] vms)
         {
-            for(int i = 0; i < vms.Length; i++)
+            foreach(Vm vm in vms)
             {
-                servers[0].Install(vms[i]);
+                Server s = servers[0];
+                foreach(Server server in servers)
+                {
+                    if(server.CurrentLoadPercentage < s.CurrentLoadPercentage && server.CanContain(vm))
+                    {
+                        s = server;
+                    }
+                }
+
+                s.Install(vm);
             }
         }
     }

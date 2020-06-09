@@ -9,6 +9,8 @@ namespace LoadBalancerMTOTests
     {
         private int Size;
 
+        private VmBuilder() { }
+
         public static VmBuilder Builder()
         {
             return new VmBuilder();

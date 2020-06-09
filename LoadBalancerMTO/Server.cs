@@ -44,6 +44,11 @@ namespace LoadBalancerMTO
             _currentLoadPercentage = (double)cumulativeSize / _capacity;
         }
 
+        public bool CanContain(Vm vm)
+        {
+            return vm.Size + CurrentLoadPercentage < Capacity;
+        }
+
         private Vm[] copy()
         {
             Vm[] view = new Vm[_vms.Count];
