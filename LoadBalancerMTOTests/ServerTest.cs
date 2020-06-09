@@ -27,6 +27,7 @@ namespace LoadBalancerMTOTests
         public void OneServerBlancedWithEmptyVmShouldBeEmpty()
         {
             Server server = A(Server().WithCapacity(1));
+
             Balance(ServersListWith(server), EmptyVmsList());
 
             Assert.AreEqual(server.CurrentLoadPercentage, ZeroPercentage);
@@ -37,9 +38,11 @@ namespace LoadBalancerMTOTests
         {
             Server server = A(Server().WithCapacity(1));
             Vm vm = A(Vm().WithSize(1));
+            Vm[] vms = VmsListWith(vm);
+            Balance(ServersListWith(server), vms);
 
-            Balance(ServersListWith(server), VmsListWith(vm));
             Assert.AreEqual(server.CurrentLoadPercentage, FullServer);
+            Assert.True(ServerVmMatches(server, vms));
         }
 
         [Test]
@@ -49,6 +52,7 @@ namespace LoadBalancerMTOTests
             Vm vm = A(Vm().WithSize(1));
 
             Balance(ServersListWith(server), VmsListWith(vm));
+
             Assert.AreEqual(server.CurrentLoadPercentage, 0.1d);
         }
 
@@ -60,8 +64,10 @@ namespace LoadBalancerMTOTests
             Vm vm2 = A(Vm().WithSize(4));
             Vm vm3 = A(Vm().WithSize(5));
             Vm[] vms = VmsListWith(vm1, vm2, vm3);
+
             Balance(ServersListWith(server), vms);
 
+            Assert.AreEqual(server.CurrentLoadPercentage, FullServer);
             Assert.True(ServerVmMatches(server, vms));
         }
 
