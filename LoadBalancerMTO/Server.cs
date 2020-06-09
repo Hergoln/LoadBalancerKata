@@ -34,7 +34,7 @@ namespace LoadBalancerMTO
                 cumulativeSize += v.Size;
             }
 
-            _currentLoadPercentage = cumulativeSize / _capacity;
+            _currentLoadPercentage = (double)cumulativeSize / _capacity;
         }
     }
 }

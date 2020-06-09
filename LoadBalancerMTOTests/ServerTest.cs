@@ -14,6 +14,14 @@ namespace LoadBalancerMTOTests
         private double ZeroPercentage = 0.0d;
         private double FullServer = 1.0d;
 
+
+        [SetUp]
+        public void Init()
+        {
+            ZeroPercentage = 0.0d;
+            FullServer = 1.0d;
+        }
+
         [Test]
         public void OneServerBlancedWithEmptyVmShouldBeEmpty()
         {
@@ -37,7 +45,11 @@ namespace LoadBalancerMTOTests
         [Test]
         public void BalancingOneServerWithTenSlotsCapacityAndOneSlotVmFillTheServerWithTenPercent()
         {
-            Assert.Pass();
+            Server server = A(Server().WithCapacity(10));
+            Vm vm = A(Vm().WithSize(1));
+
+            Balance(ServersListWith(server), VmsListWith(vm));
+            Assert.AreEqual(server.CurrentLoadPercentage, 0.1d);
         }
 
         [Test]
