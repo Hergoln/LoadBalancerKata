@@ -91,7 +91,7 @@ namespace LoadBalancerMTOTests
         [Test]
         public void BalanceAServerWithNotEnoughRoomShouldNotBeFilledWithAVm()
         {
-            Assert.Pass();
+            
         }
 
         public bool ServerVmMatches(Server server, params Vm[] vms)

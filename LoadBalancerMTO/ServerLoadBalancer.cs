@@ -11,16 +11,20 @@ namespace LoadBalancerMTO
         {
             foreach(Vm vm in vms)
             {
-                Server s = servers[0];
+                Server s = null;
                 foreach(Server server in servers)
                 {
-                    if(server.CurrentLoadPercentage < s.CurrentLoadPercentage && server.CanContain(vm))
+                    if(server.CanContain(vm))
                     {
-                        s = server;
+                        if(s == null || server.CurrentLoadPercentage < s.CurrentLoadPercentage)
+                        {
+                            s = server;
+                        }
                     }
                 }
 
-                s.Install(vm);
+                if(s != null)
+                    s.Install(vm);
             }
         }
     }
