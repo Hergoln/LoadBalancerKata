@@ -93,6 +93,25 @@ namespace Tests
             Assert.False(theServer.Contains(theVm));
         }
 
+        [Fact]
+        public void BalancingServerWithVms()
+        {
+            Server firstServer = A(Server().WithCapacity(10));
+            Server secondServer = A(Server().WithCapacity(10));
+            Vm firstVm = A(Vm().OfSize(2));
+            Vm secondVm = A(Vm().OfSize(5));
+            Vm thirdVm = A(Vm().OfSize(1));
+
+            Balance(AServersListWith(firstServer, secondServer), AVmsListWith(firstVm, secondVm, thirdVm));
+
+            Assert.True(firstServer.Contains(firstVm));
+            Assert.True(secondServer.Contains(secondVm));
+            Assert.True(firstServer.Contains(thirdVm));
+
+            Assert.That(firstServer, HasLoadPercentageOf(30.0d));
+            Assert.That(secondServer, HasLoadPercentageOf(50.0d));
+        }
+
         private Vm[] AVmsListWith(params Vm[] vms) => vms;
 
         private Vm[] AVmsEmptyList() => new Vm[] { };
