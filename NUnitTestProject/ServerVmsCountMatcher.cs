@@ -27,5 +27,10 @@ namespace Tests
         {
             return item.VmsCount == _expectedCount;
         }
+
+        public static ServerVmsCountMatcher AVmsCountOf(int count)
+        {
+            return new ServerVmsCountMatcher(count);
+        }
     }
 }

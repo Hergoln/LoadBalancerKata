@@ -8,6 +8,7 @@ using static LoadBalancerMTO.LoadBalancer;
 using static Tests.ServerBuilder;
 using static Tests.VmBuilder;
 using static Tests.ServerLoadPercentageMatcher;
+using static Tests.ServerVmsCountMatcher;
 
 namespace Tests
 {
@@ -61,11 +62,6 @@ namespace Tests
             Assert.True(theServer.Contains(firstVm));
             Assert.True(theServer.Contains(secondVm));
             Assert.True(theServer.Contains(thirdVm));
-        }
-
-        private IMatcher<Server> AVmsCountOf(int count)
-        {
-            return new ServerVmsCountMatcher(count);
         }
 
         private Vm[] AVmsListWith(params Vm[] vms) => vms;
