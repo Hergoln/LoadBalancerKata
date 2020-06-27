@@ -9,6 +9,7 @@ using static Tests.ServerBuilder;
 using static Tests.VmBuilder;
 using static Tests.ServerLoadPercentageMatcher;
 using static Tests.ServerVmsCountMatcher;
+using NHamcrest.XUnit;
 
 namespace Tests
 {
@@ -49,7 +50,7 @@ namespace Tests
         }
 
         [Fact]
-        public void BalancingEmptyServevr_AllVmsFitsInServer_ServerFilledInEightyPercent()
+        public void BalancingEmptyServevr_MultipleVmsFitsInServer_ServerFilledInEightyPercent()
         {
             Server theServer = A(Server().WithCapacity(10));
             Vm firstVm = A(Vm().OfSize(2));
@@ -62,6 +63,23 @@ namespace Tests
             Assert.True(theServer.Contains(firstVm));
             Assert.True(theServer.Contains(secondVm));
             Assert.True(theServer.Contains(thirdVm));
+        }
+
+        [Fact]
+        public void BalancingTwoServersWithOneVm_LessAndMoreFilled_LessFilledServerGetsVms()
+        {
+            Server lessFilled = A(Server().WithCapacity(10).WithLoadOf(10.0d));
+            Server moreFilled = A(Server().WithCapacity(10).WithLoadOf(50.0d));
+            Vm theVm = A(Vm().OfSize(2));
+
+            Balance(AServersListWith(lessFilled, moreFilled), AVmsListWith(theVm));
+
+            
+            Assert.That(lessFilled, HasLoadPercentageOf(30.0d));
+            Assert.True(lessFilled.Contains(theVm));
+
+            Assert.That(moreFilled, HasLoadPercentageOf(50.0d));
+            Assert.False(moreFilled.Contains(theVm));
         }
 
         private Vm[] AVmsListWith(params Vm[] vms) => vms;
