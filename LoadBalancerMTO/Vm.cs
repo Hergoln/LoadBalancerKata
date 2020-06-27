@@ -2,6 +2,11 @@
 {
     public class Vm
     {
-        public int Size;
+        private int _size;
+        public int Size => _size;
+        public Vm(int size)
+        {
+            _size = size;
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace Tests
 
         public Vm Build()
         {
-            return new Vm() { Size = _size };
+            return new Vm(_size);
         }
 
         public static VmBuilder Vm() => new VmBuilder();

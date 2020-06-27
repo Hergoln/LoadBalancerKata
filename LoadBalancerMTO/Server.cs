@@ -5,8 +5,9 @@ namespace LoadBalancerMTO
 {
     public class Server
     {
-        public int Capacity;
-        public double CurrentLoadPercentage;
+        public int Capacity { get; }
+        public double _currentLoadPercentage;
+        public double CurrentLoadPercentage => _currentLoadPercentage;
         public readonly static double MAXIMUM_LOAD = 100.0d;
         public int VmsCount => _vms.Count;
 
@@ -29,7 +30,7 @@ namespace LoadBalancerMTO
 
         public void AddVm(Vm vm)
         {
-            this.CurrentLoadPercentage += LoadOfVm(vm);
+            _currentLoadPercentage += LoadOfVm(vm);
             this._vms.Add(vm);
         }
 
