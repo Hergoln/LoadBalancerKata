@@ -47,6 +47,26 @@ namespace Tests
             Assert.True(theServer.Contains(theVm));
         }
 
+        [Fact]
+        public void BalancingEmptyServevr_AllVmsFitsInServer_ServerFilledInEightyPercent()
+        {
+            Server theServer = A(Server().WithCapacity(10));
+            Vm firstVm = A(Vm().OfSize(2));
+            Vm secondVm = A(Vm().OfSize(5));
+            Vm thirdVm = A(Vm().OfSize(1));
+
+            Balance(AServersListWith(theServer), AVmsListWith(firstVm, secondVm, thirdVm));
+
+            Assert.That(theServer, AVmsCountOf(3));
+            Assert.True(theServer.Contains(firstVm));
+            Assert.True(theServer.Contains(secondVm));
+            Assert.True(theServer.Contains(thirdVm));
+        }
+
+        private IMatcher<Server> AVmsCountOf(int count)
+        {
+            return new ServerVmsCountMatcher(count);
+        }
 
         private Vm[] AVmsListWith(params Vm[] vms) => vms;
 
