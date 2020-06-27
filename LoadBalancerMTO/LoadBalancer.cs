@@ -6,7 +6,16 @@
         {
             foreach(Vm vm in vms)
             {
-                servers[0].AddVm(vm);
+                Server leastFilled = null;
+                foreach(Server server in servers)
+                {
+                    if(leastFilled == null || server.CurrentLoadPercentage < leastFilled.CurrentLoadPercentage)
+                    {
+                        leastFilled = server;
+                    }
+                }
+
+                leastFilled.AddVm(vm);
             }
         }
     }

@@ -19,12 +19,12 @@ namespace LoadBalancerMTO
 
         public bool Contains(Vm theVm)
         {
-            return true;
+            return _vms.Contains(theVm);
         }
 
         public void AddVm(Vm vm)
         {
-            this.CurrentLoadPercentage += (double)vm.Size / this.Capacity * MAXIMUM_LOAD;
+            this.CurrentLoadPercentage += (double) vm.Size / this.Capacity * MAXIMUM_LOAD;
             this._vms.Add(vm);
         }
     }
