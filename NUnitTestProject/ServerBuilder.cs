@@ -1,5 +1,6 @@
 ﻿using LoadBalancerMTO;
 using System;
+using static LoadBalancerMTO.Server;
 
 namespace Tests
 {
@@ -17,15 +18,18 @@ namespace Tests
         public Server Build()
         {
             Server newborn = new Server(_capacity);
+            AddInitVm(newborn);
+            return newborn;
+        }
 
-            if(_initialLoad > 0)
+        private void AddInitVm(Server newborn)
+        {
+            if (_initialLoad > 0)
             {
-                int initialVmSize = (int)( _initialLoad * _capacity / 100.0d );
+                int initialVmSize = (int)(_initialLoad * _capacity / MAXIMUM_LOAD);
                 Vm initialVm = VmBuilder.Vm().OfSize(initialVmSize).Build();
                 newborn.AddVm(initialVm);
             }
-
-            return newborn;
         }
 
         public static ServerBuilder Server() => new ServerBuilder();

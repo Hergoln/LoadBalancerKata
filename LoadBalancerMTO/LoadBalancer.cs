@@ -6,17 +6,28 @@
         {
             foreach(Vm vm in vms)
             {
-                Server leastFilled = null;
-                foreach(Server server in servers)
-                {
-                    if(leastFilled == null || server.CurrentLoadPercentage < leastFilled.CurrentLoadPercentage)
-                    {
-                        leastFilled = server;
-                    }
-                }
-
-                leastFilled.AddVm(vm);
+                AddToLeastFilled(servers, vm);
             }
+        }
+
+        private static void AddToLeastFilled(Server[] servers, Vm vm)
+        {
+            Server leastFilled = SelectLeastFilled(servers);
+            leastFilled.AddVm(vm);
+        }
+
+        private static Server SelectLeastFilled(Server[] servers)
+        {
+            Server leastFilled = null;
+            foreach (Server server in servers)
+            {
+                if (leastFilled == null || server.CurrentLoadPercentage < leastFilled.CurrentLoadPercentage)
+                {
+                    leastFilled = server;
+                }
+            }
+
+            return leastFilled;
         }
     }
 }

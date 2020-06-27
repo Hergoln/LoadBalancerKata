@@ -75,11 +75,11 @@ namespace Tests
             Balance(AServersListWith(lessFilled, moreFilled), AVmsListWith(theVm));
 
             
-            Assert.That(lessFilled, HasLoadPercentageOf(30.0d));
-            Assert.True(lessFilled.Contains(theVm));
-
             Assert.That(moreFilled, HasLoadPercentageOf(50.0d));
             Assert.False(moreFilled.Contains(theVm));
+
+            Assert.That(lessFilled, HasLoadPercentageOf(30.0d));
+            Assert.True(lessFilled.Contains(theVm));
         }
 
         private Vm[] AVmsListWith(params Vm[] vms) => vms;

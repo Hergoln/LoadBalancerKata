@@ -7,7 +7,7 @@ namespace LoadBalancerMTO
     {
         public int Capacity;
         public double CurrentLoadPercentage;
-        private double MAXIMUM_LOAD = 100.0d;
+        public readonly static double MAXIMUM_LOAD = 100.0d;
         public int VmsCount => _vms.Count;
 
         private List<Vm> _vms;
