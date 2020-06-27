@@ -14,7 +14,7 @@ namespace Tests
     public class LoadBalancerMTOTests
     {
         [Fact]
-        public void EmptyServer_FilledWithNoVms_StaysEmpty()
+        public void BalancingEmptyServer_FilledWithNoVms_StaysEmpty()
         {
             Server theServer = A(Server().WithCapacity(1));
 
@@ -24,7 +24,7 @@ namespace Tests
         }
 
         [Fact]
-        public void EmptyServer_FilledWithOneVmOfServersCapacitySize_FullyFillsServer()
+        public void BalancingEmptyServer_FilledWithOneVmOfServersCapacitySize_FullyFillsServer()
         {
             Server theServer = A(Server().WithCapacity(1));
             Vm theVm = A(Vm().OfSize(1));
@@ -36,7 +36,7 @@ namespace Tests
         }
 
         [Fact]
-        public void EmptyServer_FilledWithOneVm_ShouldFillServerInFiftyPercent()
+        public void BalancingEmptyServer_FilledWithOneVm_ShouldFillServerInFiftyPercent()
         {
             Server theServer = A(Server().WithCapacity(8));
             Vm theVm = A(Vm().OfSize(4));
@@ -46,6 +46,7 @@ namespace Tests
             Assert.That(theServer, HasLoadPercentageOf(50.0d));
             Assert.True(theServer.Contains(theVm));
         }
+
 
         private Vm[] AVmsListWith(params Vm[] vms) => vms;
 
