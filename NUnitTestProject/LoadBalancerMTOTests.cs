@@ -82,6 +82,17 @@ namespace Tests
             Assert.True(lessFilled.Contains(theVm));
         }
 
+        [Fact]
+        public void BalancingServerWithOneVm_VmTooBigForServer_ServerShouldNotContainTheVm()
+        {
+            Server theServer = A(Server().WithCapacity(5));
+            Vm theVm = A(Vm().OfSize(10));
+
+            Balance(AServersListWith(theServer), AVmsListWith(theVm));
+
+            Assert.False(theServer.Contains(theVm));
+        }
+
         private Vm[] AVmsListWith(params Vm[] vms) => vms;
 
         private Vm[] AVmsEmptyList() => new Vm[] { };
