@@ -8,26 +8,32 @@ namespace LoadBalancerMTO
         {
             foreach(Vm vm in vms)
             {
-                AddToLeastFilled(servers, vm);
+                AddToLeastFilledCapable(servers, vm);
             }
         }
 
-        private static void AddToLeastFilled(Server[] servers, Vm vm)
+        private static void AddToLeastFilledCapable(Server[] servers, Vm vm)
+        {
+            List<Server> capaciousServers = ExtractCapable(servers, vm);
+            Server leastFilled = SelectLeastFilled(capaciousServers);
+            if (leastFilled != null)
+            {
+                leastFilled.AddVm(vm);
+            }
+        }
+
+        private static List<Server> ExtractCapable(Server[] servers, Vm vm)
         {
             List<Server> capaciousServers = new List<Server>();
-            foreach(Server server in servers)
+            foreach (Server server in servers)
             {
-                if(server.CanContain(vm))
+                if (server.CanContain(vm))
                 {
                     capaciousServers.Add(server);
                 }
             }
 
-            Server leastFilled = SelectLeastFilled(capaciousServers);
-            if(leastFilled != null)
-            {
-                leastFilled.AddVm(vm);
-            }
+            return capaciousServers;
         }
 
         private static Server SelectLeastFilled(List<Server> servers)
