@@ -1,4 +1,6 @@
-﻿namespace LoadBalancerMTO
+﻿using System.Collections.Generic;
+
+namespace LoadBalancerMTO
 {
     public class LoadBalancer
     {
@@ -12,11 +14,23 @@
 
         private static void AddToLeastFilled(Server[] servers, Vm vm)
         {
-            Server leastFilled = SelectLeastFilled(servers);
-            leastFilled.AddVm(vm);
+            List<Server> capaciousServers = new List<Server>();
+            foreach(Server server in servers)
+            {
+                if(server.CanContain(vm))
+                {
+                    capaciousServers.Add(server);
+                }
+            }
+
+            Server leastFilled = SelectLeastFilled(capaciousServers);
+            if(leastFilled != null)
+            {
+                leastFilled.AddVm(vm);
+            }
         }
 
-        private static Server SelectLeastFilled(Server[] servers)
+        private static Server SelectLeastFilled(List<Server> servers)
         {
             Server leastFilled = null;
             foreach (Server server in servers)
