@@ -1,9 +1,12 @@
+using System;
 using Xunit;
 using NHamcrest;
 using Assert = NHamcrest.XUnit.Assert;
 using LoadBalancerMTO;
-using System;
+
 using static LoadBalancerMTO.LoadBalancer;
+using static Tests.ServerBuilder;
+using static Tests.ServerLoadPercentageMatcher;
 
 namespace Tests
 {
@@ -14,34 +17,15 @@ namespace Tests
         {
             Server theServer = A(Server().WithCapacity(1));
 
-            Balance(ServersListWith(theServer), EmptyVmsList());
+            Balance(AServersListWith(theServer), AVmsEmptyList());
 
             Assert.That(theServer, HasLoadPercentageOf(0.0d));
         }
 
-        private IMatcher<Server> HasLoadPercentageOf(double expectedLoadPercentage)
-        {
-            return new ServerLoadPercentageMatcher(expectedLoadPercentage);
-        }
+        private Vm[] AVmsEmptyList() => new Vm[] { };
 
-        private Vm[] EmptyVmsList()
-        {
-            return new Vm[] { };
-        }
+        private Server[] AServersListWith(params Server[] servers) => servers;
 
-        private Server[] ServersListWith(params Server[] servers)
-        {
-            return servers;
-        }
-
-        private ServerBuilder Server()
-        {
-            return new ServerBuilder();
-        }
-
-        private Server A(ServerBuilder builder)
-        {
-            return builder.Build();
-        }
+        private Server A(ServerBuilder builder) => builder.Build();
     }
 }

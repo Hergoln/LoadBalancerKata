@@ -16,5 +16,7 @@ namespace Tests
         {
             return new Server() { Capacity = this._capacity };
         }
+
+        public static ServerBuilder Server() => new ServerBuilder();
     }
 }

@@ -28,5 +28,7 @@ namespace Tests
         {
             return Abs(item.CurrentLoadPercentage - _expectedLoadPercentage) < 0.01d;
         }
+
+        public static IMatcher<Server> HasLoadPercentageOf(double expectedLoadPercentage) => new ServerLoadPercentageMatcher(expectedLoadPercentage);
     }
 }
