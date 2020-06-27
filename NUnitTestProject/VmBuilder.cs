@@ -2,7 +2,7 @@
 
 namespace Tests
 {
-    public class VmBuilder
+    public class VmBuilder : IBuilder<Vm>
     {
         private int _size;
 
@@ -16,5 +16,7 @@ namespace Tests
         {
             return new Vm() { Size = _size };
         }
+
+        public static VmBuilder Vm() => new VmBuilder();
     }
 }

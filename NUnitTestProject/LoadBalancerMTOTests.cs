@@ -6,6 +6,7 @@ using LoadBalancerMTO;
 
 using static LoadBalancerMTO.LoadBalancer;
 using static Tests.ServerBuilder;
+using static Tests.VmBuilder;
 using static Tests.ServerLoadPercentageMatcher;
 
 namespace Tests
@@ -34,25 +35,12 @@ namespace Tests
             Assert.True(theServer.Contains(theVm));
         }
 
-        private Vm[] AVmsListWith(params Vm[] vms)
-        {
-            return vms;
-        }
-
-        private Vm A(VmBuilder builder)
-        {
-            return builder.Build();
-        }
-
-        private VmBuilder Vm()
-        {
-            return new VmBuilder();
-        }
+        private Vm[] AVmsListWith(params Vm[] vms) => vms;
 
         private Vm[] AVmsEmptyList() => new Vm[] { };
 
         private Server[] AServersListWith(params Server[] servers) => servers;
 
-        private Server A(ServerBuilder builder) => builder.Build();
+        private T A<T>(IBuilder<T> builder) => builder.Build();
     }
 }
