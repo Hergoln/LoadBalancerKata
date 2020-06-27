@@ -16,12 +16,7 @@ namespace Tests
 
         public override void DescribeMismatch(Server item, IDescription mismatchDescription)
         {
-            mismatchDescription.AppendText("A server with current laod percentage of").AppendValue(item.CurrentLoadPercentage);
-        }
-
-        public override void DescribeTo(IDescription description)
-        {
-            description.AppendText("Server load percentage matcher");
+            mismatchDescription.AppendText("A Server with current laod percentage of ").AppendValue(item.CurrentLoadPercentage);
         }
 
         public override bool Matches(Server item)

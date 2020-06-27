@@ -2,5 +2,6 @@
 {
     public class Vm
     {
+        public int Size;
     }
 }
