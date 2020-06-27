@@ -24,7 +24,7 @@ namespace Tests
         }
 
         [Fact]
-        public void EmptyServer_FilledWithOneVmServersCapacitySize_FullyFills()
+        public void EmptyServer_FilledWithOneVmOfServersCapacitySize_FullyFillsServer()
         {
             Server theServer = A(Server().WithCapacity(1));
             Vm theVm = A(Vm().OfSize(1));
@@ -32,6 +32,18 @@ namespace Tests
             Balance(AServersListWith(theServer), AVmsListWith(theVm));
 
             Assert.That(theServer, HasLoadPercentageOf(100.0d));
+            Assert.True(theServer.Contains(theVm));
+        }
+
+        [Fact]
+        public void EmptyServer_FilledWithOneVm_ShouldFillServerInFiftyPercent()
+        {
+            Server theServer = A(Server().WithCapacity(8));
+            Vm theVm = A(Vm().OfSize(4));
+
+            Balance(AServersListWith(theServer), AVmsListWith(theVm));
+
+            Assert.That(theServer, HasLoadPercentageOf(50.0d));
             Assert.True(theServer.Contains(theVm));
         }
 
